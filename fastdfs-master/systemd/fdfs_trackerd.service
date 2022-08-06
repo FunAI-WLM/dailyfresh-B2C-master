@@ -1,0 +1,18 @@
+[Unit]
+Description=FastDFS trackerd service
+After=network-online.target
+
+[Service]
+Type=forking
+PIDFile=/opt/fastdfs/data/fdfs_trackerd.pid
+ExecStart=/usr/bin/fdfs_trackerd /etc/fdfs/tracker.conf start
+ExecStop=/usr/bin/fdfs_trackerd /etc/fdfs/tracker.conf stop
+
+# No artificial start/stop timeout
+TimeoutSec=0
+
+# Disable OOM kill by Linux kernel
+OOMScoreAdjust=-1000
+
+[Install]
+WantedBy=multi-user.target

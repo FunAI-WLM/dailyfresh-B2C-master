@@ -1,0 +1,60 @@
+libfastcommon (1.0.59-1) unstable; urgency=medium
+
+  * upgrade to 1.0.59-1
+
+ -- YuQing <384681@qq.com>  Mon, 25 Jul 2022 13:51:25 +0000
+
+libfastcommon (1.0.58-1) unstable; urgency=medium
+
+  * upgrade to 1.0.58-1
+
+ -- YuQing <384681@qq.com>  Wed, 15 Jun 2022 14:26:02 +0000
+
+libfastcommon (1.0.57-1) unstable; urgency=medium
+
+  * upgrade to 1.0.57-1
+
+ -- YuQing <384681@qq.com>  Thu, 28 Apr 2022 11:53:21 +0000
+
+libfastcommon (1.0.56-1) unstable; urgency=medium
+
+  * check pthread_rwlockattr_getkind_np for porting
+  * correct pthread_rwlockattr getkind_np to setkind_np
+  * change include <sys/poll.h> to #include <poll.h>
+  * add function fc_gettid
+  * NULL from parameter for getcwd
+  * sockopt.[hc] support tcpwritev and tcpreadv
+  * add const modifier for unification
+  * make.sh refined
+  * add function fc_iov_get_bytes
+  * make.sh: generate macros for dirent fields
+  * add function log_try_init2
+  * rename hash_xxx to fc_hash_xxx
+  * rename trim to fc_trim
+  * php-fastcommon compile OK
+  * add function locked_list_destroy
+  * upgrade version to 1.0.56
+  * add function fc_check_rename_ex
+  * small changes for logger.[hc]
+
+ -- YuQing <384681@qq.com>  Sun, 13 Mar 2022 16:43:08 +0800
+
+libfastcommon (1.0.55-1) unstable; urgency=medium
+
+  * upgrade version to 1.0.55 
+
+ -- YuQing <384681@qq.com>  Sat, 15 Jan 2022 19:50:26 +0800
+
+libfastcommon (1.0.54-1) unstable; urgency=medium
+  
+  * upgrade version to 1.0.54
+
+ -- YuQing <384681@qq.com>  Sun, 26 Dec 2021 20:29:05 +0800
+
+libfastcommon (1.0.53-1) unstable; urgency=medium
+  
+  * open for write MUST have the third parameter: mode
+  * uniq_skiplist.h: add function uniq_skiplist_iterator_at
+  * process_action support action status
+
+ -- YuQing <384681@qq.com>  Tue, 6 Jul 2021 21:23:31 +0800
