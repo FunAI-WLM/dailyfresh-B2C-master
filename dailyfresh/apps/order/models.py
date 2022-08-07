@@ -2,8 +2,8 @@
 from django.db import models
 from db.base_model import BaseModel
 
-# class OrderInfo(BaseModel):
-class OrderInfo():
+class OrderInfo(BaseModel):
+# class OrderInfo():
     """订单模型类"""
     PAY_METHODS = {
         '1': "货到付款",
@@ -55,8 +55,8 @@ class OrderInfo():
         verbose_name = '订单'
         verbose_name_plural = verbose_name
 
-# class OrderGoods(BaseModel):
-class OrderGoods():
+class OrderGoods(BaseModel):
+# class OrderGoods():
     """订单商品模型类"""
     order = models.ForeignKey('OrderInfo', on_delete=models.CASCADE, verbose_name='订单')
     sku = models.ForeignKey('goods.GoodsSKU', on_delete=models.CASCADE, verbose_name='商品SKU')

@@ -3,8 +3,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from db.base_model import BaseModel
 
-# class User(AbstractUser, BaseModel):
-class User(AbstractUser):
+class User(AbstractUser, BaseModel):
+# class User(AbstractUser):
     """用户模型类"""
 
     class Meta:
@@ -27,8 +27,9 @@ class AddressManager(models.Manager):
 
         return address
 
-# class Address(BaseModel):
-class Address():
+class Address(BaseModel):
+# class Address():models.Model
+    # def __init__(self):
     """地址模型类"""
     user = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name='所属用户')
     receiver = models.CharField(max_length=20, verbose_name='收件人')

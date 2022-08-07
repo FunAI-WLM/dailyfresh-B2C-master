@@ -4,8 +4,8 @@ from db.base_model import BaseModel
 from tinymce.models import HTMLField
 
 
-# class GoodsType(BaseModel):
-class GoodsType():
+class GoodsType(BaseModel):
+# class GoodsType():
     """商品类型模型类"""
     name = models.CharField(max_length=20, verbose_name='种类名称')
     logo = models.CharField(max_length=20, verbose_name='标识')
@@ -19,8 +19,8 @@ class GoodsType():
     def __str__(self):
         return self.name
 
-# class GoodsSKU(BaseModel):
-class GoodsSKU():
+class GoodsSKU(BaseModel):
+# class GoodsSKU():
     """商品SKU模型类"""
     status_choices = (
         (0, '下线'),
@@ -48,8 +48,8 @@ class GoodsSKU():
     # def __repr__(self):
     #     return self.name
 
-# class Goods(BaseModel):
-class Goods():
+class Goods(BaseModel):
+# class Goods():
     """商品SPU模型类"""
     name = models.CharField(max_length=20, verbose_name='商品SPU名称')
     # 富文本类型：带有格式的文本
@@ -63,8 +63,8 @@ class Goods():
     def __str__(self):
         return self.name
 
-# class GoodsImage(BaseModel):
-class GoodsImage():
+class GoodsImage(BaseModel):
+# class GoodsImage():
     """商品图片模型类"""
     sku = models.ForeignKey('GoodsSKU', on_delete=models.CASCADE, verbose_name='商品')
     image = models.ImageField(upload_to='goods', verbose_name='图片路径')
@@ -74,8 +74,8 @@ class GoodsImage():
         verbose_name = '商品图片'
         verbose_name_plural = verbose_name
 
-# class IndexGoodsBanner(BaseModel):
-class IndexGoodsBanner():
+class IndexGoodsBanner(BaseModel):
+# class IndexGoodsBanner():
     """首页轮播商品展示模型类"""
     sku = models.ForeignKey('GoodsSKU', on_delete=models.CASCADE, verbose_name='商品')
     image = models.ImageField(upload_to='banner', verbose_name='图片')
@@ -89,8 +89,8 @@ class IndexGoodsBanner():
     def __str__(self):
         return self.sku.name
 
-# class IndexTypeGoodsBanner(BaseModel):
-class IndexTypeGoodsBanner():
+class IndexTypeGoodsBanner(BaseModel):
+# class IndexTypeGoodsBanner():
     """首页分类商品展示模型类"""
     DISPLAY_TYPE_CHOICES = (
         (0, '标题'),
@@ -110,8 +110,8 @@ class IndexTypeGoodsBanner():
     def __str__(self):
         return self.sku.name
 
-# class IndexPromotionBanner(BaseModel):
-class IndexPromotionBanner():
+class IndexPromotionBanner(BaseModel):
+# class IndexPromotionBanner():
     """首页促销活动模型类"""
     name = models.CharField(max_length=20, verbose_name='活动名称')
     url = models.URLField(verbose_name='活动链接')

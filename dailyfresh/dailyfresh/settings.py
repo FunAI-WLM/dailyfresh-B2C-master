@@ -74,20 +74,20 @@ WSGI_APPLICATION = 'dailyfresh.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'dailyfresh',
-#         'USER': 'root',
-#         'PASSWORD': 'Mathkk123+-',
-#         # 'HOST': '192.168.229.130',
-#         'HOST': '127.0.0.1',
-#         'PORT': '3306',
-#         'OPTIONS': {
-#             'read_default_file': '/opt/lampp/etc/my.cnf',
-#         }
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dailyfresh',
+        'USER': 'root',
+        'PASSWORD': 'Mathkk123+-',
+        # 'HOST': '192.168.229.130',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        'OPTIONS': {
+            'read_default_file': '/opt/lampp/etc/my.cnf',
+        }
+    }
+}
 
 # django认证系统使用的模型类
 AUTH_USER_MODEL = 'user.User'
@@ -155,6 +155,7 @@ CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://192.168.229.130:6379/1",
+        # "LOCATION": "redis://127.0.0.1:8000/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }

@@ -186,6 +186,10 @@ class LoginView(View):
             return render(request, 'df_user/login.html', {'errmsg': '数据不完整'})
 
         # 业务处理: 登陆校验
+
+        # print("00000  username {} ".format(str(username)))
+        # print("00000  password {} ".format(str(password)))
+
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
