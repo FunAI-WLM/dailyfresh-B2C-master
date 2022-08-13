@@ -24,13 +24,24 @@
 
 	<div class="center_con clearfix">
 		<ul class="subnav fl">
+			<li><a href="#" class="seafood">海鲜水产</a></li>
+			<li><a href="#" class="fruit">新鲜水果</a></li>
+			<li><a href="#" class="meet">猪牛羊肉</a></li>
+			<li><a href="#" class="egg">禽类蛋品</a></li>
+			<li><a href="#" class="vegetables">新鲜蔬菜</a></li>
+			<li><a href="#" class="ice">速冻食品</a></li>
             {% for type in types %}
 			<li><a href="#model0{{ forloop.counter }}" class="{{ type.logo }}">{{ type.name }}</a></li>
 			{% endfor %}
 		</ul>
 		<div class="slide fl">
 			<ul class="slide_pics">
-                {% for banner in index_banner %}
+				<!-- <li>dailyfresh.templates.df_goods.index2222</li> -->
+				<li><a href="#"><img src="/static/images/slide.jpg" width="800" height="300" alt="幻灯片"></a></li>
+				<li><a href="#"><img src="/static/images/slide02.jpg" width="800" height="300" alt="幻灯片"></a></li>
+				<li><a href="#"><img src="/static/images/slide03.jpg" width="800" height="300" alt="幻灯片"></a></li>
+				<li><a href="#"><img src="/static/images/slide04.jpg" width="800" height="300" alt="幻灯片"></a></li>
+				{% for banner in index_banner %}
                     <li><a href="{% url 'goods:detail' banner.sku.id  %}"><img src="{{ banner.image.url }}" alt="幻灯片"></a></li>
 				{% endfor %}
 			</ul>
@@ -39,6 +50,8 @@
 			<ul class="points"></ul>
 		</div>
 		<div class="adv fl">
+			<a href="#"><img src="/static/images/adv02.jpg" width="250" height="135" alt="幻灯片"></a>
+			<a href="#"><img src="/static/images/adv01.jpg" width="250" height="135" alt="幻灯片"></a>				
             {% for banner in promotion_banner %}
 			<a href="{{ banner.url }}"><img src="{{ banner.image.url }}"></a>
             {% endfor %}

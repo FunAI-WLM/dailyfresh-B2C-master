@@ -30,6 +30,7 @@
 		</ul>
 		<div class="slide fl">
 			<ul class="slide_pics">
+				<li>dailyfresh.templates.static_index</li>
                 {% for banner in index_banner %}
                     <li><a href="{% url 'goods:detail' banner.sku.id  %}"><img src="{{ banner.image.url }}" alt="幻灯片"></a></li>
 				{% endfor %}
