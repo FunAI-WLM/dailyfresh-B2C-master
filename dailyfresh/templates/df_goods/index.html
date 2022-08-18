@@ -36,13 +36,10 @@
 		</ul>
 		<div class="slide fl">
 			<ul class="slide_pics">
-				<!-- <li>dailyfresh.templates.df_goods.index2222</li> -->
-				<li><a href="#"><img src="/static/images/slide.jpg" width="800" height="300" alt="幻灯片"></a></li>
-				<li><a href="#"><img src="/static/images/slide02.jpg" width="800" height="300" alt="幻灯片"></a></li>
-				<li><a href="#"><img src="/static/images/slide03.jpg" width="800" height="300" alt="幻灯片"></a></li>
-				<li><a href="#"><img src="/static/images/slide04.jpg" width="800" height="300" alt="幻灯片"></a></li>
+				<!-- <li><a href="#"><img src="/static/images/slide.jpg" width="800" height="300" alt="幻灯片"></a></li> -->
 				{% for banner in index_banner %}
-                    <li><a href="{% url 'goods:detail' banner.sku.id  %}"><img src="{{ banner.image.url }}" alt="幻灯片"></a></li>
+                    <!-- <li><a href="{% url 'goods:detail' banner.sku.id  %}"><img src="{{ banner.image.url }}" alt="幻灯片"></a></li> -->
+				    <li><a href="{% url 'goods:detail' banner.sku.id  %}"><img src="{{ banner.url }}" alt="幻灯片"></a></li>
 				{% endfor %}
 			</ul>
 			<div class="prev"></div>
@@ -50,10 +47,9 @@
 			<ul class="points"></ul>
 		</div>
 		<div class="adv fl">
-			<a href="#"><img src="/static/images/adv02.jpg" width="250" height="135" alt="幻灯片"></a>
-			<a href="#"><img src="/static/images/adv01.jpg" width="250" height="135" alt="幻灯片"></a>				
             {% for banner in promotion_banner %}
-			<a href="{{ banner.url }}"><img src="{{ banner.image.url }}"></a>
+			    <!-- <a href="{{ banner.url }}"><img src="{{ banner.image.url }}"></a> -->
+			    <a href="{{ banner.url }}"><img src="{{ banner.url }}"></a>
             {% endfor %}
 		</div>
 	</div>
@@ -73,12 +69,14 @@
 		</div>
 
 		<div class="goods_con clearfix">
-			<div class="goods_banner fl"><img src="{{ type.image.url }}"></div>
+			<!-- <div class="goods_banner fl"><img src="{{ type.image.url }}"></div> -->
+			<div class="goods_banner fl"><img src="{{ type.url }}"></div>
 			<ul class="goods_list fl">
                 {% for banner in type.image_banner %}
 				<li>
 					<h4><a href="{% url 'goods:detail' banner.sku.id  %}">{{ banner.sku.name }}</a></h4>
-					<a href="{% url 'goods:detail' banner.sku.id  %}"><img src="{{ banner.sku.image.url }}"></a>
+					<!-- <a href="{% url 'goods:detail' banner.sku.id  %}"><img src="{{ banner.sku.image.url }}"></a> -->
+					<a href="{% url 'goods:detail' banner.sku.id  %}"><img src="{{ banner.sku.url }}"></a>
 					<div class="prize">¥ {{ banner.sku.price }}</div>
 				</li>
                 {% endfor %}

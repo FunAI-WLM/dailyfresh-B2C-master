@@ -99,7 +99,7 @@
             $.post('/order/commit', params, function (data) {
                 // 进行处理
                 if (data.res == 5){
-                    {#alert('订单创建成功')#}
+                    {alert('订单创建成功')}
                     localStorage.setItem('order_finish',2);
 
                     $('.popup_con').fadeIn('fast', function() {

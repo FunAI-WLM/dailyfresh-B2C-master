@@ -19,6 +19,17 @@ class GoodsType(BaseModel):
     def __str__(self):
         return self.name
 
+    _url = None
+    @property
+    def url(self):
+        if self._url is not None:
+            return self._url
+        return self.image.url
+
+    @url.setter
+    def url(self, value):
+        self._url = value
+
 class GoodsSKU(BaseModel):
 # class GoodsSKU():
     """商品SKU模型类"""
@@ -45,9 +56,17 @@ class GoodsSKU(BaseModel):
     def __str__(self):
         return self.name
 
-    # def __repr__(self):
-    #     return self.name
+    _url = None
+    @property
+    def url(self):
+        if self._url is not None:
+            return self._url
+        return self.image.url
 
+    @url.setter
+    def url(self, value):
+        self._url = value
+        
 class Goods(BaseModel):
 # class Goods():
     """商品SPU模型类"""
@@ -89,6 +108,17 @@ class IndexGoodsBanner(BaseModel):
     def __str__(self):
         return self.sku.name
 
+    _url = None
+    @property
+    def url(self):
+        if self._url is not None:
+            return self._url
+        return self.image.url
+
+    @url.setter
+    def url(self, value):
+        self._url = value
+
 class IndexTypeGoodsBanner(BaseModel):
 # class IndexTypeGoodsBanner():
     """首页分类商品展示模型类"""
@@ -125,3 +155,16 @@ class IndexPromotionBanner(BaseModel):
 
     def __str__(self):
         return self.name
+
+    _url = None
+    @property
+    def url(self):
+        if self._url is not None:
+            return self._url
+        return self.image.url
+
+    @url.setter
+    def url(self, value):
+        self._url = value
+
+

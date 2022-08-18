@@ -1,9 +1,12 @@
 # -*-coding:utf-8-*-
+from sre_parse import TYPE_FLAGS
+from tkinter import Image
+from tkinter import *
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import View
 
-from apps.goods.models import GoodsType, GoodsSKU, IndexGoodsBanner, IndexPromotionBanner, IndexTypeGoodsBanner
+from apps.goods.models import GoodsType, GoodsSKU, IndexGoodsBanner, IndexPromotionBanner, IndexTypeGoodsBanner,Goods
 from apps.order.models import OrderGoods
 from django_redis import get_redis_connection
 
@@ -23,6 +26,44 @@ class IndexView(View):
         """显示"""
         # 先判断缓存中是否有数据,没有数据不会报错返回None
         context = cache.get('index_page_data')
+
+        types = GoodsType.objects.all()
+        # 获取首页轮播的商品的信息
+        index_banner = IndexGoodsBanner.objects.all().order_by('index')
+        # 获取首页促销的活动信息
+        promotion_banner = IndexPromotionBanner.objects.all().order_by('index')
+
+        for type in types:
+            type.url=type.image.url[25:]
+            
+        for index_b in index_banner:
+            index_b.url=index_b.image.url[25:]
+            
+        for banner in promotion_banner:
+            banner.url=banner.image.url[25:]
+            
+        # 获取首页分类商品信息展示
+        for type in types:
+            # 查询首页显示的type类型的文字商品信息
+            title_banner = IndexTypeGoodsBanner.objects.filter(type=type, display_type=0).order_by('index')
+            # 查询首页显示的图片商品信息
+            image_banner = IndexTypeGoodsBanner.objects.filter(type=type, display_type=1).order_by('index')
+            for banner in image_banner:
+                banner.sku.url=banner.sku.image.url[25:]
+            # 动态给type对象添加两个属性保存数据
+            type.title_banner = title_banner
+            type.image_banner = image_banner
+
+        # 组织上下文
+        context = {
+            'types': types,
+            'index_banner': index_banner,
+            'promotion_banner': promotion_banner,
+        }
+
+        # 设置缓存数据,缓存的名字，内容，过期的时间
+        cache.set('index_page_data', context, 3600)
+
 
         if context is None:
             # 查询商品的分类信息

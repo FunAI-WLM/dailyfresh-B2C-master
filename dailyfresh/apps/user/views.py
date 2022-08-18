@@ -10,11 +10,17 @@ from django.conf import settings
 
 from apps.user.models import User, Address
 from apps.goods.models import GoodsSKU
+from apps.goods.models import Goods
+from apps.goods.models import GoodsType
+from apps.goods.models import IndexPromotionBanner
+from apps.goods.models import IndexGoodsBanner
+from apps.goods.models import IndexTypeGoodsBanner
 from apps.order.models import OrderInfo, OrderGoods
 
 from celery_tasks.tasks import send_register_active_email
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from itsdangerous import SignatureExpired
+# from dailyfresh.apps.goods.models import Goods
 from utils.mixin import LoginRequiredMixin
 from django_redis import get_redis_connection
 import re
@@ -185,11 +191,334 @@ class LoginView(View):
         if not all([username, password]):
             return render(request, 'df_user/login.html', {'errmsg': '数据不完整'})
 
+
+        # type = models.ForeignKey('GoodsType', on_delete=models.CASCADE, verbose_name='商品种类')
+        # goods = models.ForeignKey('Goods', on_delete=models.CASCADE, verbose_name='商品SPU')
+        # name = models.CharField(max_length=20, verbose_name='商品名称')
+        # desc = models.CharField(max_length=256, verbose_name='商品简介')
+        # price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='价格')
+        # unite = models.CharField(max_length=20, verbose_name='商品单位')
+        # image = models.ImageField(upload_to='goods', verbose_name='商品图片')
+        # stock = models.IntegerField(default=1, verbose_name='商品库存')
+        # sales = models.IntegerField(default=0, verbose_name='商品销量')
+        # status = models.SmallIntegerField(default=1, choices=status_choices, verbose_name='状态')
+
+        # name = "goods009_d_xj"
+        # Goods.objects.create(name=name)
+
+        # type = GoodsType.objects.get(id=5)
+        # goods = Goods.objects.get(id=7)
+        # name = "slide海鲜"
+        # desc = "slide海鲜"
+        # price = 0.0
+        # unite = "个"
+        # image = "/static/images/slide04_haixian.jpg"
+        # stock = 100
+        # sales = 20
+        # status = 0
+        # GoodsSKU.objects.create(type=type,goods=goods,name=name,desc=desc,price=price,unite=unite,image=image,stock=stock,
+        # sales=sales,status=status)
+ 
+        # /static/images/adv02.jpg
+        # /static/images/adv01.jpg
+
+        # name = "吃货暑假趴"
+        # url = "#"
+        # image = "/static/images/adv02_lefttop.jpg"
+        # index = 2
+        # IndexPromotionBanner.objects.create(name=name,url=url,image=image,index=index)
+
+        # sku = GoodsSKU.objects.get(id=4)
+        # image = "/static/images/slide04_haixian.jpg"
+        # index = 4
+        # IndexGoodsBanner.objects.create(sku=sku,image=image,index=index)
+
+        # type = GoodsType.objects.get(id=4)
+        # goods = Goods.objects.get(id=14)
+        # name = "海鲜水产"
+        # desc = "海鲜水产"
+        # price = 100.0
+        # unite = "斤"
+        # image = "static/images/banner02_haixianshengyan.jpg"
+        # stock = 100
+        # sales = 20
+        # status = 0
+        # GoodsSKU.objects.create(type=type,goods=goods,name=name,desc=desc,price=price,unite=unite,image=image,stock=stock,
+        # sales=sales,status=status)
+
+        # type = GoodsType.objects.get(id=5)
+        # goods = Goods.objects.get(id=13)
+        # name = "新鲜水果"
+        # desc = "新鲜水果"
+        # price = 20.0
+        # unite = "斤"
+        # image = "static/images/banner01_shilingshuoguo.jpg"
+        # stock = 100
+        # sales = 50
+        # status = 0
+        # GoodsSKU.objects.create(type=type,goods=goods,name=name,desc=desc,price=price,unite=unite,image=image,stock=stock,
+        # sales=sales,status=status)
+
+        # type = GoodsType.objects.get(id=6)
+        # goods = Goods.objects.get(id=15)
+        # name = "猪牛羊肉"
+        # desc = "猪牛羊肉"
+        # price = 20.0
+        # unite = "斤"
+        # image = "static/images/banner03_xinxiantegong.jpg"
+        # stock = 100
+        # sales = 50
+        # status = 0
+        # GoodsSKU.objects.create(type=type,goods=goods,name=name,desc=desc,price=price,unite=unite,image=image,stock=stock,
+        # sales=sales,status=status)
+
+        # type = GoodsType.objects.get(id=7)
+        # goods = Goods.objects.get(id=16)
+        # name = "禽类蛋品"
+        # desc = "禽类蛋品"
+        # price = 10.0
+        # unite = "斤"
+        # image = "static/images/banner04_yuandichuchan.jpg"
+        # stock = 100
+        # sales = 50
+        # status = 0
+        # GoodsSKU.objects.create(type=type,goods=goods,name=name,desc=desc,price=price,unite=unite,image=image,stock=stock,
+        # sales=sales,status=status)
+
+        # type = GoodsType.objects.get(id=8)
+        # goods = Goods.objects.get(id=17)
+        # name = "新鲜蔬菜"
+        # desc = "新鲜蔬菜"
+        # price = 10.0
+        # unite = "斤"
+        # image = "static/images/banner05_lvseyouji.jpg"
+        # stock = 100
+        # sales = 50
+        # status = 0
+        # GoodsSKU.objects.create(type=type,goods=goods,name=name,desc=desc,price=price,unite=unite,image=image,stock=stock,
+        # sales=sales,status=status)
+
+        # type = GoodsType.objects.get(id=9)
+        # goods = Goods.objects.get(id=18)
+        # name = "速冻食品"
+        # desc = "速冻食品"
+        # price = 9.0
+        # unite = "斤"
+        # image = "static/images/banner06_shuangkubingpin.jpg"
+        # stock = 100
+        # sales = 50
+        # status = 0
+        # GoodsSKU.objects.create(type=type,goods=goods,name=name,desc=desc,price=price,unite=unite,image=image,stock=stock,
+        # sales=sales,status=status)
+
+        # type = GoodsType.objects.get(id=4)
+        # sku = GoodsSKU.objects.get(id=5)
+        # display_type = 1
+        # index = 1
+        # IndexTypeGoodsBanner.objects.create(type=type,sku=sku,display_type=display_type,index=index)
+
+        # type = GoodsType.objects.get(id=5)
+        # sku = GoodsSKU.objects.get(id=6)
+        # display_type = 1
+        # index = 2
+        # IndexTypeGoodsBanner.objects.create(type=type,sku=sku,display_type=display_type,index=index)
+
+        # type = GoodsType.objects.get(id=6)
+        # sku = GoodsSKU.objects.get(id=7)
+        # display_type = 1
+        # index = 3
+        # IndexTypeGoodsBanner.objects.create(type=type,sku=sku,display_type=display_type,index=index)
+
+        # type = GoodsType.objects.get(id=7)
+        # sku = GoodsSKU.objects.get(id=8)
+        # display_type = 1
+        # index = 4
+        # IndexTypeGoodsBanner.objects.create(type=type,sku=sku,display_type=display_type,index=index)
+
+        # type = GoodsType.objects.get(id=8)
+        # sku = GoodsSKU.objects.get(id=9)
+        # display_type = 1
+        # index = 5
+        # IndexTypeGoodsBanner.objects.create(type=type,sku=sku,display_type=display_type,index=index)
+
+
+        # type = GoodsType.objects.get(id=9)
+        # sku = GoodsSKU.objects.get(id=10)
+        # display_type = 1
+        # index = 6
+        # IndexTypeGoodsBanner.objects.create(type=type,sku=sku,display_type=display_type,index=index)
+
+
+        # type = GoodsType.objects.get(id=4)
+        # goods = Goods.objects.get(id=25)
+        # name = "龙虾"
+        # desc = "龙虾"
+        # price = 140.0
+        # unite = "斤"
+        # image = "static/images/goods/goods023_longlongxia.jpg"
+        # stock = 100
+        # sales = 50
+        # status = 0
+        # GoodsSKU.objects.create(type=type,goods=goods,name=name,desc=desc,price=price,unite=unite,image=image,stock=stock,
+        # sales=sales,status=status)
+
+        # type = GoodsType.objects.get(id=4)
+        # goods = Goods.objects.get(id=26)
+        # name = "秋刀鱼"
+        # desc = "秋刀鱼"
+        # price = 40.0
+        # unite = "斤"
+        # image = "static/images/goods/goods022_qiudaoyu.jpg"
+        # stock = 100
+        # sales = 50
+        # status = 0
+        # GoodsSKU.objects.create(type=type,goods=goods,name=name,desc=desc,price=price,unite=unite,image=image,stock=stock,
+        # sales=sales,status=status)
+
+        # type = GoodsType.objects.get(id=4)
+        # goods = Goods.objects.get(id=27)
+        # name = "基围虾"
+        # desc = "基围虾"
+        # price = 70.0
+        # unite = "斤"
+        # image = "static/images/goods/goods020_xia.jpg"
+        # stock = 100
+        # sales = 50
+        # status = 0
+        # GoodsSKU.objects.create(type=type,goods=goods,name=name,desc=desc,price=price,unite=unite,image=image,stock=stock,
+        # sales=sales,status=status)
+
+        # type = GoodsType.objects.get(id=4)
+        # goods = Goods.objects.get(id=28)
+        # name = "扇贝"
+        # desc = "扇贝"
+        # price = 70.0
+        # unite = "斤"
+        # image = "static/images/goods/goods021_shanbei.jpg"
+        # stock = 100
+        # sales = 50
+        # status = 0
+        # GoodsSKU.objects.create(type=type,goods=goods,name=name,desc=desc,price=price,unite=unite,image=image,stock=stock,
+        # sales=sales,status=status)
+
+        # type = GoodsType.objects.get(id=5)
+        # goods = Goods.objects.get(id=29)
+        # name = "草莓"
+        # desc = "草莓"
+        # price = 80.0
+        # unite = "斤"
+        # image = "static/df_goods/goods003_d_caomei.jpg"
+        # stock = 100
+        # sales = 50
+        # status = 0
+        # GoodsSKU.objects.create(type=type,goods=goods,name=name,desc=desc,price=price,unite=unite,image=image,stock=stock,
+        # sales=sales,status=status)
+
+        # type = GoodsType.objects.get(id=5)
+        # goods = Goods.objects.get(id=30)
+        # name = "奇异果"
+        # desc = "奇异果"
+        # price = 10.0
+        # unite = "斤"
+        # image = "static/df_goods/goods012_d_qiyiguo.jpg"
+        # stock = 100
+        # sales = 50
+        # status = 0
+        # GoodsSKU.objects.create(type=type,goods=goods,name=name,desc=desc,price=price,unite=unite,image=image,stock=stock,
+        # sales=sales,status=status)
+
+        # type = GoodsType.objects.get(id=5)
+        # goods = Goods.objects.get(id=31)
+        # name = "橘子"
+        # desc = "橘子"
+        # price = 10.0
+        # unite = "斤"
+        # image = "static/df_goods/goods013_d_juzi.jpg"
+        # stock = 100
+        # sales = 50
+        # status = 0
+        # GoodsSKU.objects.create(type=type,goods=goods,name=name,desc=desc,price=price,unite=unite,image=image,stock=stock,
+        # sales=sales,status=status)
+
+        # type = GoodsType.objects.get(id=5)
+        # goods = Goods.objects.get(id=32)
+        # name = "香蕉"
+        # desc = "香蕉"
+        # price = 5.0
+        # unite = "斤"
+        # image = "static/df_goods/goods009_d_xj.jpg"
+        # stock = 100
+        # sales = 50
+        # status = 0
+        # GoodsSKU.objects.create(type=type,goods=goods,name=name,desc=desc,price=price,unite=unite,image=image,stock=stock,
+        # sales=sales,status=status)
+
+        # type = GoodsType.objects.get(id=4)
+        # sku = GoodsSKU.objects.get(id=11)
+        # display_type = 1
+        # index = 7
+        # IndexTypeGoodsBanner.objects.create(type=type,sku=sku,display_type=display_type,index=index)
+
+        # type = GoodsType.objects.get(id=4)
+        # sku = GoodsSKU.objects.get(id=13)
+        # display_type = 1
+        # index = 8
+        # IndexTypeGoodsBanner.objects.create(type=type,sku=sku,display_type=display_type,index=index)
+
+        # type = GoodsType.objects.get(id=4)
+        # sku = GoodsSKU.objects.get(id=15)
+        # display_type = 1
+        # index = 9
+        # IndexTypeGoodsBanner.objects.create(type=type,sku=sku,display_type=display_type,index=index)
+
+        # type = GoodsType.objects.get(id=4)
+        # sku = GoodsSKU.objects.get(id=16)
+        # display_type = 1
+        # index = 10
+        # IndexTypeGoodsBanner.objects.create(type=type,sku=sku,display_type=display_type,index=index)
+
+        # type = GoodsType.objects.get(id=5)
+        # sku = GoodsSKU.objects.get(id=17)
+        # display_type = 1
+        # index = 11
+        # IndexTypeGoodsBanner.objects.create(type=type,sku=sku,display_type=display_type,index=index)
+
+        # type = GoodsType.objects.get(id=5)
+        # sku = GoodsSKU.objects.get(id=18)
+        # display_type = 1
+        # index = 12
+        # IndexTypeGoodsBanner.objects.create(type=type,sku=sku,display_type=display_type,index=index)
+
+        # type = GoodsType.objects.get(id=5)
+        # sku = GoodsSKU.objects.get(id=19)
+        # display_type = 1
+        # index = 13
+        # IndexTypeGoodsBanner.objects.create(type=type,sku=sku,display_type=display_type,index=index)
+
+        # type = GoodsType.objects.get(id=5)
+        # sku = GoodsSKU.objects.get(id=25)
+        # display_type = 1
+        # index = 14
+        # IndexTypeGoodsBanner.objects.create(type=type,sku=sku,display_type=display_type,index=index)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         # 业务处理: 登陆校验
-
-        # print("00000  username {} ".format(str(username)))
-        # print("00000  password {} ".format(str(password)))
-
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
