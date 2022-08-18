@@ -8,7 +8,7 @@ class User(AbstractUser, BaseModel):
     """用户模型类"""
 
     class Meta:
-        db_table = 'df_user'
+        db_table = ''
         verbose_name = '用户'
         verbose_name_plural = verbose_name
 
