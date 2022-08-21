@@ -33,8 +33,8 @@ class IndexView(View):
         # 获取首页促销的活动信息
         promotion_banner = IndexPromotionBanner.objects.all().order_by('index')
 
-        for type in types:
-            type.url=type.image.url[25:]
+        for type_ in types:
+            type_.url=type_.image.url[25:]
             
         for index_b in index_banner:
             index_b.url=index_b.image.url[25:]
@@ -116,6 +116,7 @@ class DetailView(View):
     def get(self, request, goods_id):
         try:
             sku = GoodsSKU.objects.get(id=goods_id)
+            sku.url=sku.image.url[25:]
         except GoodsSKU.DoesNotExist:
             return redirect(reverse('goods:index'))
 
@@ -130,7 +131,9 @@ class DetailView(View):
 
         # 获取同一个SPU的其他规格商品
         same_spu_skus = GoodsSKU.objects.filter(goods=sku.goods).exclude(id=goods_id)
-
+        for new_sku in new_skus:
+            new_sku.url=new_sku.image.url[25:]
+        
         # 获取登录用户的额购物车中的商品的数量
         user = request.user
         cart_count = 0
@@ -221,6 +224,9 @@ class ListView(View):
 
         # 获取新品推荐信息
         new_skus = GoodsSKU.objects.filter(type=type).order_by('-create_time')
+        for new_sku in new_skus:
+            new_sku.url=new_sku.image.url[25:]
+        
 
         # 获取登录用户的额购物车中的商品的数量
         user = request.user

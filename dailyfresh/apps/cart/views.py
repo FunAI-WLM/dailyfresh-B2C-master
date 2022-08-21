@@ -94,6 +94,7 @@ class CartInfoView(LoginRequiredMixin, View):
             sku.amount = amount
             # 动态给sku对象添加一个属性,保存购物车中对应商品的数量
             sku.count = int(count)
+            sku.url=sku.image.url[25:]
 
             # 添加
             skus.append(sku)

@@ -66,7 +66,7 @@ class GoodsSKU(BaseModel):
     @url.setter
     def url(self, value):
         self._url = value
-        
+
 class Goods(BaseModel):
 # class Goods():
     """商品SPU模型类"""

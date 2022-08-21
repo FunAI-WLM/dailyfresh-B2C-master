@@ -46,7 +46,8 @@
         {% for sku in skus %}
 		<ul class="goods_list_td clearfix">
 			<li class="col01">{{ forloop.counter }}</li>
-			<li class="col02"><img src="{{ sku.image.url }}"></li>
+			<!-- <li class="col02"><img src="{{ sku.image.url }}"></li> -->
+			<li class="col02"><img src="{{ sku.url }}"></li>
 			<li class="col03">{{ sku.name }}</li>
 			<li class="col04">{{ sku.unite }}</li>
 			<li class="col05">{{ sku.price }}元</li>

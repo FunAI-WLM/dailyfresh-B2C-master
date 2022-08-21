@@ -23,7 +23,8 @@
             <tr>
                 <td width="80%">
                     <ul class="order_goods_list clearfix">
-                        <li class="col01"><img src="{{ order_sku.sku.image.url }}"></li>
+                        <!-- <li class="col01"><img src="{{ order_sku.sku.image.url }}"></li> -->
+                        <li class="col01"><img src="{{ order_sku.sku.url }}"></li>
                         <li class="col02">{{ order_sku.sku.name }}<em>单价:{{ order_sku.sku.price }}/{{ order_sku.sku.unit }}</em></li>
                         <li class="col03">购买数量: {{ order_sku.count }}</li>
                     </ul>

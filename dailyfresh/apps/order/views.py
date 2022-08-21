@@ -51,6 +51,7 @@ class OrderPlaceView(LoginRequiredMixin, View):
             total_count += count
             total_price += amount
             # 最后将sku对象添加到列表中
+            sku.url=sku.image.url[25:]
             skus.append(sku)
 
         # for sku in skus:
@@ -516,7 +517,7 @@ class OrderCommentView(LoginRequiredMixin, View):
             return redirect(reverse('user:order'))
 
         try:
-            order = OrderInfo.objects.get(order_id=order_id, user=user)
+            order = OrderInfo.objects.get(order_id=order_id, user=user)           
         except OrderInfo.DoesNotExist:
             return redirect(reverse('user:order'))
 
@@ -530,6 +531,9 @@ class OrderCommentView(LoginRequiredMixin, View):
             order_sku.amount = amount
         # 增加实例属性
         order.order_skus = order_skus
+        for order_sku in order.order_skus:
+            order_sku.sku = GoodsSKU.objects.get(id=order_sku.sku_id)
+            order_sku.sku.url=order_sku.sku.image.url[25:]
 
         context = {
             'order': order,

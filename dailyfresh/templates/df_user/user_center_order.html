@@ -19,7 +19,8 @@
                     <td width="55%">
                         {% for order_sku in order.order_skus %}
                         <ul class="order_goods_list clearfix">
-                            <li class="col01"><img src="{{ order_sku.sku.image.url }}"></li>
+                            <!-- <li class="col01"><img src="{{ order_sku.sku.image.url }}"></li> -->
+                            <li class="col01"><img src="{{ order_sku.sku.url }}"></li>
                             <li class="col02">{{ order_sku.sku.name }}<em>{{ order_sku.price }}元/{{ order_sku.sku.unite }}</em></li>
                             <li class="col03">{{ order_sku.count }}</li>
                             <li class="col04">{{ order_sku.amount }}元</li>
@@ -81,7 +82,7 @@
                 // 组织参数
                 params = {'order_id': order_id, 'csrfmiddlewaretoken': csrf}
                 // 发起ajax post请求, 访问/order/pay, 传递参数:order_id
-                $.post('{% url 'order:pay' %}', params, function (data) {
+                $.post('{% url "order:pay" %}', params, function (data) {
                     if (data.res == 3){
                         // 引导用户到支付页面
                         window.open(data.pay_url)

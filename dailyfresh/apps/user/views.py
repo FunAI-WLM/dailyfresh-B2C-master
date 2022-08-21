@@ -25,6 +25,7 @@ from utils.mixin import LoginRequiredMixin
 from django_redis import get_redis_connection
 import re
 import time
+from django.db.models import Count
 
 
 # /user/register
@@ -560,6 +561,62 @@ class LogoutView(View):
         return redirect(reverse('goods:index'))
 
 
+# itemgetter 用于获取对象的哪些位置的数据，参数即为代表位置的序号值
+from operator import itemgetter
+# from db import select
+
+# 将购买过good_id的用户及其购物信息筛选出来
+def get_data(good_id):
+    pass
+    # sql = 'SELECT u_g.userId, u_g.goodsId, g.img, g.title, g.eva_num FROM user_goods u_g, goods g WHERE userId in (SELECT userId FROM user_goods WHERE goodsId = %d) AND u_g.goodsId = g.id' %good_id
+    # result = select(sql)
+    # data = {}                                        # 数据矩阵
+    # for row in result:                               # 遍历result，将数据以字典的形式存储到data中
+    #     if row[0] not in data:                       # 如果data中没有这用户，则将这个用户添加进去
+    #         data[row[0]] = []
+    #     data[row[0]].append({'id':row[1],'img': row[2],'title': row[3],'eva_num': row[4]})
+    # # print(data)
+    # return data                                      # data 的结构与下面注释的data的结构近似
+
+# 购买过此商品的用户还购买过——推荐算法
+def recommend_goods_based(good_id, count):
+    data = get_data(good_id)
+    goods_count = {}                                # 统计每个商品出现的次数
+    goods_data = []                                 # 统计每个商品的信息
+    for user in data.keys():                        # 遍历大字典，用户为键，商品信息为值
+        for good in data[user]:                     # 遍历小字典
+            if good['id'] == good_id:               # 如果与已给出的商品相同，则退出此次循环，查看下一个
+                continue
+            if good['id'] not in goods_count:       # 如果这个商品没在goods_count中，则添加给物品，默认出现次数为0
+                goods_count.setdefault(good['id'], 0)
+            goods_count[good['id']] += 1            # 将这个商品的出现次数+1 
+            if good['id'] not in goods_data:        #如果这个商品不在goods_data中，则添加这个商品
+                goods_data.append(good)
+    # print('商品出现的频次', goods_count)
+    if count < len(goods_count):                    # 需要推荐的商品个数小于 len(goods_count)，则推荐前count个
+        goods_count_sort = sorted(goods_count.items(), key=itemgetter(1), reverse=True)[:count]
+    else:                                           # 需要推荐的商品个数大于 len(goods_count)，则推荐goods_count里的所有商品
+        goods_count_sort = goods_count
+    # print('商品出现的频次排序', goods_count_sort)
+    count_sort = []
+    for good_id in goods_count_sort:                # 统计待推荐的商品序号
+        count_sort.append(good_id[0])
+    print('所要推荐的商品的序号', count_sort)
+    # print('商品信息数据', goods_data, end='\n')
+    # print('要推荐的商品信息')
+    recommend_goods = []                            # 存储要推荐的商品
+    for id in count_sort:                           # 统计要推荐的商品的信息
+        for good in goods_data:
+            if id == good['id'] and good not in recommend_goods:
+                # print('item', good)
+                recommend_goods.append(good)
+    return recommend_goods
+
+# if __name__ == '__main__':
+#     # get_data(1)
+#     for good in recommend_goods_based(1, 6):                   # 推荐6个与商品1相似的商品
+#         print(good)
+
 # /user
 class UserInfoView(LoginRequiredMixin, View):
     """用户中心-信息页"""
@@ -588,9 +645,51 @@ class UserInfoView(LoginRequiredMixin, View):
 
         # 遍历获取用户浏览的历史商品信息
         goods_list = []
-        for id in sku_ids:
-            goods = GoodsSKU.objects.get(id=id)
-            goods_list.append(goods)
+        # for id in sku_ids:
+        #     goods = GoodsSKU.objects.get(id=id)
+        #     goods.url=goods.image.url[25:]
+        #     goods_list.append(goods)
+
+        goods_list_temp = GoodsSKU.objects.filter(type_id=5)
+        for item in goods_list_temp:
+            item.url=item.image.url[25:]
+            goods_list.append(item)
+
+        # ,user_id != user.id
+        sku_id_first = sku_ids[0]
+        Order_Info_list = []
+        user_id_list = []
+        # Order_Goods_order_ids = OrderGoods.objects.filter(sku_id=sku_id_first).all()
+        # print("222222    Order_Goods_order_ids  {} ".format(len(Order_Goods_order_ids)))
+        # for Order_Goods_order_id in Order_Goods_order_ids:
+        #     order_id = Order_Goods_order_id.order_id
+        #     Order_Info = OrderInfo.objects.get(order_id=order_id)
+        #     Order_Info_list.append(Order_Info)
+        # for Order_Info_item in Order_Info_list:
+        #     if user.id != Order_Info_item.user_id:
+        #         user_id_list.append(Order_Info_item.user_id)
+    
+        # data = {}                                        # 数据矩阵
+        # Order_Info_group_by = OrderInfo.objects.values("user_id").annotate(count=Count("order_id")).all()
+        # for Order_Info_item in Order_Info_group_by:
+        #     if Order_Info_item.order_id not in data:                       # 如果data中没有这用户，则将这个用户添加进去
+        #         data[Order_Info_item.order_id] = []
+        #     data[Order_Info_item.order_id].append({'user_id':Order_Info_item.user_id,'count':Order_Info_item.count})
+        # for order_id in data.keys():                        # 遍历大字典，用户为键，商品信息为值
+        #    for good in data[order_id]:
+        #      Order_Goods = OrderGoods.objects.get(order_id=order_id) 
+        #      sku_id_list = []
+        #      for Order_Good in Order_Goods:
+        #         sku_id_list.append(Order_Good.sku_id)
+        #         data[Order_Info_item.order_id].append({'sku_id_list':sku_id_list})
+       
+
+                
+        
+        
+
+
+
 
         # 组织上下文
         context = {'page': 'user',
@@ -622,7 +721,10 @@ class UserOrderView(LoginRequiredMixin, View):
             # 动态给order增加属性, 保存订单状态标题
             order.status_name = OrderInfo.ORDER_STATUS[order.order_status]
             order.order_skus = order_skus
-
+            for order_sku in order.order_skus:
+                order_sku.sku = GoodsSKU.objects.get(id=order_sku.sku_id)
+                order_sku.sku.url=order_sku.sku.image.url[25:]
+                
         # 分页
         paginator = Paginator(orders, 2)  # 单页显示数目2
 
