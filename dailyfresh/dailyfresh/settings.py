@@ -60,6 +60,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 'django.template.context_processors.media'
+                'django.template.context_processors.static'
             ],
             'libraries' : {
                 'staticfiles': 'django.templatetags.static', 
@@ -82,7 +84,8 @@ DATABASES = {
         'PASSWORD': 'Mathkk123+-',
         # 'HOST': '192.168.229.130',
         'HOST': '127.0.0.1',
-        'PORT': '3306',
+        # 'PORT': '3306',
+        'PORT': '8080',
         'OPTIONS': {
             'read_default_file': '/opt/lampp/etc/my.cnf',
         }
@@ -129,7 +132,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static').replace('\\','/')]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static/images').replace('\\','/')
+# STATICFILES_DIRS = os.path.join(BASE_DIR, 'static')
 # 指定收集静态文件的路径
 # STATIC_ROOT = 'var/www/dailyfresh/static'
 
@@ -176,7 +181,8 @@ DEFAULT_FILE_STORAGE = 'utils.fdfs.storage.FDFSStorage'
 FDFS_CLIENT_CONF = './utils/fdfs/client.conf'
 
 # 设置fdfs存储服务器上nginx的IP和端口号
-FDFS_URL = 'http://192.168.229.130:80/'
+# FDFS_URL = 'http://192.168.229.130:80/'
+FDFS_URL = 'http://127.0.0.1:8000/'
 
 
 # 全文检索框架配置
